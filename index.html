@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>새로운 페이지 - Modern Design</title>
+    <title>InSyte - Insight Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        
+
         * {
             font-family: 'Inter', sans-serif;
         }
@@ -47,6 +47,15 @@
             backdrop-filter: blur(12px);
             border: 1px solid rgba(229, 231, 235, 0.5);
         }
+
+        .lang-btn {
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(to right, #4f46e5, #7c3aed);
+            color: white;
+        }
     </style>
 </head>
 <body class="relative min-h-screen overflow-x-hidden">
@@ -78,42 +87,46 @@
                 </div>
                 
                 <nav class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors">홈</a>
-                    <a href="#features" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors">기능</a>
-                    <a href="#about" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors">소개</a>
-                    <a href="#contact" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors">문의</a>
+                    <a href="#home" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors" data-ko="홈" data-en="Home">홈</a>
+                    <a href="#features" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors" data-ko="기능" data-en="Features">기능</a>
+                    <a href="#about" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors" data-ko="소개" data-en="About">소개</a>
+                    <a href="#contact" class="text-gray-700 hover:text-indigo-600 font-medium transition-colors" data-ko="문의" data-en="Contact">문의</a>
                 </nav>
 
-                <button class="px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
-                    시작하기
-                </button>
+                <div class="flex items-center space-x-3">
+                    <div class="flex bg-gray-100 rounded-lg p-1">
+                        <button id="lang-ko" class="lang-btn active px-3 py-1.5 rounded-md text-sm font-medium">KO</button>
+                        <button id="lang-en" class="lang-btn px-3 py-1.5 rounded-md text-sm font-medium text-gray-600">EN</button>
+                    </div>
+                    <button class="px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-medium hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5" data-ko="시작하기" data-en="Get Started">
+                        시작하기
+                    </button>
+                </div>
             </div>
         </div>
     </header>
 
     <!-- 메인 컨텐츠 -->
     <main class="relative pt-20">
-        <!-- 히어로 섹션 -->
+        <!-- 히어로 섹션 / Hero Section -->
         <section id="home" class="relative min-h-screen flex items-center justify-center px-6 pt-20">
             <div class="container mx-auto text-center relative z-10">
                 <div class="max-w-4xl mx-auto">
                     <h2 class="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-                        업계의 진짜 인사이트를
+                        <span data-ko="업계의 진짜 인사이트를" data-en="Discover Real Industry Insights">업계의 진짜 인사이트를</span>
                         <br />
-                        <span class="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent">
+                        <span class="bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent" data-ko="직접 만나보세요" data-en="First-Hand">
                             직접 만나보세요
                         </span>
                     </h2>
-                    <p class="text-xl md:text-2xl text-purple-100 mb-12 leading-relaxed">
-                        구글에서 찾을 수 없는 현장의 생생한 정보
-현업 전문가들이 직접 전하는 업계 동향, 프로젝트 현황, 주요 고객사 정보까지.
-리서치 시간을 단축하고 정확한 비즈니스 인텔리전스를 확보하세요.
+                    <p class="text-xl md:text-2xl text-purple-100 mb-12 leading-relaxed" data-ko="구글에서 찾을 수 없는 현장의 생생한 정보. 현업 전문가들이 직접 전하는 업계 동향, 프로젝트 현황, 주요 고객사 정보까지. 리서치 시간을 단축하고 정확한 비즈니스 인텔리전스를 확보하세요." data-en="Real-world information you can't find on Google. Industry trends, project status, and key client information directly from field experts. Reduce research time and secure accurate business intelligence.">
+                        구글에서 찾을 수 없는 현장의 생생한 정보. 현업 전문가들이 직접 전하는 업계 동향, 프로젝트 현황, 주요 고객사 정보까지. 리서치 시간을 단축하고 정확한 비즈니스 인텔리전스를 확보하세요.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                        <button class="px-8 py-4 bg-white text-indigo-600 rounded-lg font-semibold text-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <button class="px-8 py-4 bg-white text-indigo-600 rounded-lg font-semibold text-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" data-ko="무료로 시작하기" data-en="Start for Free">
                             무료로 시작하기
                         </button>
-                        <button class="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 rounded-lg font-semibold text-lg hover:bg-white/20 transition-all duration-300">
+                        <button class="px-8 py-4 bg-white/10 backdrop-blur-sm text-white border-2 border-white/30 rounded-lg font-semibold text-lg hover:bg-white/20 transition-all duration-300" data-ko="더 알아보기" data-en="Learn More">
                             더 알아보기
                         </button>
                     </div>
@@ -121,54 +134,54 @@
             </div>
         </section>
 
-        <!-- 기능 섹션 -->
+        <!-- 기능 섹션 / Features Section -->
         <section id="features" class="relative py-24 px-6">
             <div class="container mx-auto">
                 <div class="text-center mb-16">
-                    <h3 class="text-4xl md:text-5xl font-bold text-white mb-4">
+                    <h3 class="text-4xl md:text-5xl font-bold text-white mb-4" data-ko="주요 기능" data-en="Key Features">
                         주요 기능
                     </h3>
-                    <p class="text-xl text-purple-200">
+                    <p class="text-xl text-purple-200" data-ko="강력하고 직관적인 기능들을 만나보세요" data-en="Experience powerful and intuitive features">
                         강력하고 직관적인 기능들을 만나보세요
                     </p>
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                    <!-- 기능 카드 1 -->
+                    <!-- 기능 카드 1 / Feature Card 1 -->
                     <div class="glass-effect rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                         <div class="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center mb-6">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path>
                             </svg>
                         </div>
-                        <h4 class="text-2xl font-bold text-gray-800 mb-4">스마트 자동화</h4>
-                        <p class="text-gray-600 leading-relaxed">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-4" data-ko="스마트 자동화" data-en="Smart Automation">스마트 자동화</h4>
+                        <p class="text-gray-600 leading-relaxed" data-ko="AI 기반 자동화로 업무 효율성을 극대화하고 반복 작업을 최소화합니다" data-en="Maximize work efficiency with AI-powered automation and minimize repetitive tasks">
                             AI 기반 자동화로 업무 효율성을 극대화하고 반복 작업을 최소화합니다
                         </p>
                     </div>
 
-                    <!-- 기능 카드 2 -->
+                    <!-- 기능 카드 2 / Feature Card 2 -->
                     <div class="glass-effect rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                         <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center mb-6">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                             </svg>
                         </div>
-                        <h4 class="text-2xl font-bold text-gray-800 mb-4">빠른 성능</h4>
-                        <p class="text-gray-600 leading-relaxed">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-4" data-ko="빠른 성능" data-en="Fast Performance">빠른 성능</h4>
+                        <p class="text-gray-600 leading-relaxed" data-ko="최적화된 코드와 인프라로 번개같이 빠른 속도를 제공합니다" data-en="Lightning-fast speed with optimized code and infrastructure">
                             최적화된 코드와 인프라로 번개같이 빠른 속도를 제공합니다
                         </p>
                     </div>
 
-                    <!-- 기능 카드 3 -->
+                    <!-- 기능 카드 3 / Feature Card 3 -->
                     <div class="glass-effect rounded-2xl p-8 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                         <div class="w-16 h-16 bg-gradient-to-br from-pink-500 to-red-600 rounded-xl flex items-center justify-center mb-6">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
                             </svg>
                         </div>
-                        <h4 class="text-2xl font-bold text-gray-800 mb-4">안전한 보안</h4>
-                        <p class="text-gray-600 leading-relaxed">
+                        <h4 class="text-2xl font-bold text-gray-800 mb-4" data-ko="안전한 보안" data-en="Secure Protection">안전한 보안</h4>
+                        <p class="text-gray-600 leading-relaxed" data-ko="엔터프라이즈급 보안으로 고객의 데이터를 안전하게 보호합니다" data-en="Protect your data safely with enterprise-grade security">
                             엔터프라이즈급 보안으로 고객의 데이터를 안전하게 보호합니다
                         </p>
                     </div>
@@ -176,34 +189,32 @@
             </div>
         </section>
 
-        <!-- 소개 섹션 -->
+        <!-- 소개 섹션 / About Section -->
         <section id="about" class="relative py-24 px-6">
             <div class="container mx-auto max-w-6xl">
                 <div class="grid md:grid-cols-2 gap-12 items-center">
                     <div class="glass-effect rounded-2xl p-12">
-                        <h3 class="text-4xl font-bold text-gray-800 mb-6">
+                        <h3 class="text-4xl font-bold text-gray-800 mb-6" data-ko="우리는 누구인가요?" data-en="Who Are We?">
                             우리는 누구인가요?
                         </h3>
-                        <p class="text-lg text-gray-600 leading-relaxed mb-6">
-                            우리는 혁신적인 기술로 세상을 변화시키는 것을 목표로 하는 팀입니다. 
-                            고객의 성공이 우리의 성공이라는 믿음으로 최선을 다하고 있습니다.
+                        <p class="text-lg text-gray-600 leading-relaxed mb-6" data-ko="우리는 혁신적인 기술로 세상을 변화시키는 것을 목표로 하는 팀입니다. 고객의 성공이 우리의 성공이라는 믿음으로 최선을 다하고 있습니다." data-en="We are a team that aims to change the world with innovative technology. We do our best with the belief that our customers' success is our success.">
+                            우리는 혁신적인 기술로 세상을 변화시키는 것을 목표로 하는 팀입니다. 고객의 성공이 우리의 성공이라는 믿음으로 최선을 다하고 있습니다.
                         </p>
-                        <p class="text-lg text-gray-600 leading-relaxed mb-8">
-                            10년 이상의 경험과 노하우를 바탕으로 최고의 솔루션을 제공하며, 
-                            끊임없는 혁신을 통해 업계를 선도하고 있습니다.
+                        <p class="text-lg text-gray-600 leading-relaxed mb-8" data-ko="10년 이상의 경험과 노하우를 바탕으로 최고의 솔루션을 제공하며, 끊임없는 혁신을 통해 업계를 선도하고 있습니다." data-en="Based on over 10 years of experience and know-how, we provide the best solutions and lead the industry through continuous innovation.">
+                            10년 이상의 경험과 노하우를 바탕으로 최고의 솔루션을 제공하며, 끊임없는 혁신을 통해 업계를 선도하고 있습니다.
                         </p>
                         <div class="grid grid-cols-3 gap-6">
                             <div class="text-center">
                                 <div class="text-3xl font-bold text-indigo-600 mb-2">10+</div>
-                                <div class="text-sm text-gray-600">년 경력</div>
+                                <div class="text-sm text-gray-600" data-ko="년 경력" data-en="Years">년 경력</div>
                             </div>
                             <div class="text-center">
                                 <div class="text-3xl font-bold text-purple-600 mb-2">500+</div>
-                                <div class="text-sm text-gray-600">프로젝트</div>
+                                <div class="text-sm text-gray-600" data-ko="프로젝트" data-en="Projects">프로젝트</div>
                             </div>
                             <div class="text-center">
                                 <div class="text-3xl font-bold text-pink-600 mb-2">98%</div>
-                                <div class="text-sm text-gray-600">만족도</div>
+                                <div class="text-sm text-gray-600" data-ko="만족도" data-en="Satisfaction">만족도</div>
                             </div>
                         </div>
                     </div>
@@ -217,8 +228,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="text-xl font-bold text-gray-800 mb-2">전문성</h4>
-                                    <p class="text-gray-600">업계 최고의 전문가들로 구성된 팀</p>
+                                    <h4 class="text-xl font-bold text-gray-800 mb-2" data-ko="전문성" data-en="Expertise">전문성</h4>
+                                    <p class="text-gray-600" data-ko="업계 최고의 전문가들로 구성된 팀" data-en="A team of industry-leading experts">업계 최고의 전문가들로 구성된 팀</p>
                                 </div>
                             </div>
                         </div>
@@ -231,8 +242,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="text-xl font-bold text-gray-800 mb-2">신뢰성</h4>
-                                    <p class="text-gray-600">검증된 프로세스와 높은 품질 보장</p>
+                                    <h4 class="text-xl font-bold text-gray-800 mb-2" data-ko="신뢰성" data-en="Reliability">신뢰성</h4>
+                                    <p class="text-gray-600" data-ko="검증된 프로세스와 높은 품질 보장" data-en="Proven processes and high quality assurance">검증된 프로세스와 높은 품질 보장</p>
                                 </div>
                             </div>
                         </div>
@@ -245,8 +256,8 @@
                                     </svg>
                                 </div>
                                 <div>
-                                    <h4 class="text-xl font-bold text-gray-800 mb-2">혁신</h4>
-                                    <p class="text-gray-600">최신 기술을 활용한 창의적 솔루션</p>
+                                    <h4 class="text-xl font-bold text-gray-800 mb-2" data-ko="혁신" data-en="Innovation">혁신</h4>
+                                    <p class="text-gray-600" data-ko="최신 기술을 활용한 창의적 솔루션" data-en="Creative solutions using the latest technology">최신 기술을 활용한 창의적 솔루션</p>
                                 </div>
                             </div>
                         </div>
@@ -255,15 +266,15 @@
             </div>
         </section>
 
-        <!-- 문의 섹션 -->
+        <!-- 문의 섹션 / Contact Section -->
         <section id="contact" class="relative py-24 px-6">
             <div class="container mx-auto max-w-4xl">
                 <div class="glass-effect rounded-2xl p-12">
                     <div class="text-center mb-12">
-                        <h3 class="text-4xl font-bold text-gray-800 mb-4">
+                        <h3 class="text-4xl font-bold text-gray-800 mb-4" data-ko="지금 바로 시작하세요" data-en="Get Started Now">
                             지금 바로 시작하세요
                         </h3>
-                        <p class="text-xl text-gray-600">
+                        <p class="text-xl text-gray-600" data-ko="궁금한 점이 있으시다면 언제든 문의해주세요" data-en="If you have any questions, feel free to contact us">
                             궁금한 점이 있으시다면 언제든 문의해주세요
                         </p>
                     </div>
@@ -271,26 +282,26 @@
                     <form class="space-y-6">
                         <div class="grid md:grid-cols-2 gap-6">
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">이름</label>
-                                <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" placeholder="홍길동">
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" data-ko="이름" data-en="Name">이름</label>
+                                <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" data-placeholder-ko="홍길동" data-placeholder-en="John Doe" placeholder="홍길동">
                             </div>
                             <div>
-                                <label class="block text-sm font-semibold text-gray-700 mb-2">이메일</label>
+                                <label class="block text-sm font-semibold text-gray-700 mb-2" data-ko="이메일" data-en="Email">이메일</label>
                                 <input type="email" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" placeholder="example@email.com">
                             </div>
                         </div>
-                        
+
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">제목</label>
-                            <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" placeholder="문의 제목">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2" data-ko="제목" data-en="Subject">제목</label>
+                            <input type="text" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all" data-placeholder-ko="문의 제목" data-placeholder-en="Inquiry subject" placeholder="문의 제목">
                         </div>
 
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700 mb-2">메시지</label>
-                            <textarea rows="5" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none" placeholder="문의 내용을 입력해주세요"></textarea>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2" data-ko="메시지" data-en="Message">메시지</label>
+                            <textarea rows="5" class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none" data-placeholder-ko="문의 내용을 입력해주세요" data-placeholder-en="Please enter your message" placeholder="문의 내용을 입력해주세요"></textarea>
                         </div>
 
-                        <button type="submit" class="w-full px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold text-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
+                        <button type="submit" class="w-full px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg font-semibold text-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1" data-ko="메시지 보내기" data-en="Send Message">
                             메시지 보내기
                         </button>
                     </form>
@@ -299,38 +310,38 @@
         </section>
     </main>
 
-    <!-- 푸터 -->
+    <!-- 푸터 / Footer -->
     <footer class="relative py-12 px-6 mt-24">
         <div class="container mx-auto">
             <div class="glass-effect rounded-2xl p-8">
                 <div class="grid md:grid-cols-4 gap-8 mb-8">
                     <div>
                         <h5 class="text-lg font-bold text-gray-800 mb-4">InSyte</h5>
-                        <p class="text-gray-600 text-sm">
+                        <p class="text-gray-600 text-sm" data-ko="혁신적인 솔루션으로 미래를 만들어갑니다" data-en="Creating the future with innovative solutions">
                             혁신적인 솔루션으로 미래를 만들어갑니다
                         </p>
                     </div>
                     <div>
-                        <h6 class="font-semibold text-gray-800 mb-3">제품</h6>
+                        <h6 class="font-semibold text-gray-800 mb-3" data-ko="제품" data-en="Product">제품</h6>
                         <ul class="space-y-2 text-sm text-gray-600">
-                            <li><a href="#" class="hover:text-indigo-600 transition-colors">기능</a></li>
-                            <li><a href="#" class="hover:text-indigo-600 transition-colors">가격</a></li>
-                            <li><a href="#" class="hover:text-indigo-600 transition-colors">업데이트</a></li>
+                            <li><a href="#" class="hover:text-indigo-600 transition-colors" data-ko="기능" data-en="Features">기능</a></li>
+                            <li><a href="#" class="hover:text-indigo-600 transition-colors" data-ko="가격" data-en="Pricing">가격</a></li>
+                            <li><a href="#" class="hover:text-indigo-600 transition-colors" data-ko="업데이트" data-en="Updates">업데이트</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h6 class="font-semibold text-gray-800 mb-3">회사</h6>
+                        <h6 class="font-semibold text-gray-800 mb-3" data-ko="회사" data-en="Company">회사</h6>
                         <ul class="space-y-2 text-sm text-gray-600">
-                            <li><a href="#" class="hover:text-indigo-600 transition-colors">소개</a></li>
-                            <li><a href="#" class="hover:text-indigo-600 transition-colors">채용</a></li>
-                            <li><a href="#" class="hover:text-indigo-600 transition-colors">블로그</a></li>
+                            <li><a href="#" class="hover:text-indigo-600 transition-colors" data-ko="소개" data-en="About">소개</a></li>
+                            <li><a href="#" class="hover:text-indigo-600 transition-colors" data-ko="채용" data-en="Careers">채용</a></li>
+                            <li><a href="#" class="hover:text-indigo-600 transition-colors" data-ko="블로그" data-en="Blog">블로그</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h6 class="font-semibold text-gray-800 mb-3">지원</h6>
+                        <h6 class="font-semibold text-gray-800 mb-3" data-ko="지원" data-en="Support">지원</h6>
                         <ul class="space-y-2 text-sm text-gray-600">
-                            <li><a href="#" class="hover:text-indigo-600 transition-colors">도움말</a></li>
-                            <li><a href="#" class="hover:text-indigo-600 transition-colors">문의</a></li>
+                            <li><a href="#" class="hover:text-indigo-600 transition-colors" data-ko="도움말" data-en="Help">도움말</a></li>
+                            <li><a href="#" class="hover:text-indigo-600 transition-colors" data-ko="문의" data-en="Contact">문의</a></li>
                             <li><a href="#" class="hover:text-indigo-600 transition-colors">FAQ</a></li>
                         </ul>
                     </div>
@@ -341,5 +352,37 @@
             </div>
         </div>
     </footer>
+
+    <!-- Language Switch Script -->
+    <script>
+        let currentLang = 'ko';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+
+            // Update button states
+            document.getElementById('lang-ko').classList.toggle('active', lang === 'ko');
+            document.getElementById('lang-en').classList.toggle('active', lang === 'en');
+            document.getElementById('lang-ko').classList.toggle('text-gray-600', lang !== 'ko');
+            document.getElementById('lang-en').classList.toggle('text-gray-600', lang !== 'en');
+
+            // Update all elements with data-ko and data-en attributes
+            document.querySelectorAll('[data-ko][data-en]').forEach(el => {
+                el.textContent = el.getAttribute(`data-${lang}`);
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-placeholder-ko][data-placeholder-en]').forEach(el => {
+                el.placeholder = el.getAttribute(`data-placeholder-${lang}`);
+            });
+
+            // Update html lang attribute
+            document.documentElement.lang = lang;
+        }
+
+        // Event listeners for language buttons
+        document.getElementById('lang-ko').addEventListener('click', () => switchLanguage('ko'));
+        document.getElementById('lang-en').addEventListener('click', () => switchLanguage('en'));
+    </script>
 </body>
 </html>
