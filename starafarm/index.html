@@ -1,0 +1,979 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>스타라팜 마진계산기</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --ground: #F7FAF6;
+    --surface: #FFFFFF;
+    --surface-2: #EFF5EC;
+    --ink: #1C2A21;
+    --ink-soft: #5A6B5F;
+    --line: #DCE6DA;
+    --accent: #2C7A4B;
+    --accent-ink: #FFFFFF;
+    --good: #1E8A4A;
+    --warn: #B47D10;
+    --bad: #C94141;
+    --good-bg: #E3F3E8;
+    --warn-bg: #F8EED8;
+    --bad-bg: #FAE4E4;
+    --shadow: 0 1px 3px rgba(28, 42, 33, 0.08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #131A15;
+      --surface: #1B241D;
+      --surface-2: #222E25;
+      --ink: #E8EFE9;
+      --ink-soft: #98A89C;
+      --line: #31402F;
+      --accent: #4CAE74;
+      --accent-ink: #0E1811;
+      --good: #5BC286;
+      --warn: #D9A83E;
+      --bad: #E37070;
+      --good-bg: #1C3326;
+      --warn-bg: #362C14;
+      --bad-bg: #3A1F1F;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+  }
+  :root[data-theme="light"] {
+    --ground: #F7FAF6;
+    --surface: #FFFFFF;
+    --surface-2: #EFF5EC;
+    --ink: #1C2A21;
+    --ink-soft: #5A6B5F;
+    --line: #DCE6DA;
+    --accent: #2C7A4B;
+    --accent-ink: #FFFFFF;
+    --good: #1E8A4A;
+    --warn: #B47D10;
+    --bad: #C94141;
+    --good-bg: #E3F3E8;
+    --warn-bg: #F8EED8;
+    --bad-bg: #FAE4E4;
+    --shadow: 0 1px 3px rgba(28, 42, 33, 0.08);
+  }
+  :root[data-theme="dark"] {
+    --ground: #131A15;
+    --surface: #1B241D;
+    --surface-2: #222E25;
+    --ink: #E8EFE9;
+    --ink-soft: #98A89C;
+    --line: #31402F;
+    --accent: #4CAE74;
+    --accent-ink: #0E1811;
+    --good: #5BC286;
+    --warn: #D9A83E;
+    --bad: #E37070;
+    --good-bg: #1C3326;
+    --warn-bg: #362C14;
+    --bad-bg: #3A1F1F;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+  }
+  .wrap {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px 16px 56px;
+  }
+
+  header.app {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+  header.app h1 {
+    font-size: 22px;
+    font-weight: 800;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  header.app .brand {
+    color: var(--accent);
+  }
+  header.app .sub {
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+
+  nav.tabs {
+    display: flex;
+    gap: 6px;
+    margin: 14px 0 18px;
+    border-bottom: 1px solid var(--line);
+    overflow-x: auto;
+  }
+  nav.tabs button {
+    appearance: none;
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    padding: 8px 12px 10px;
+    border-bottom: 3px solid transparent;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  nav.tabs button[aria-selected="true"] {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+  nav.tabs button:disabled {
+    cursor: default;
+    opacity: 0.55;
+  }
+  nav.tabs .soon {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: var(--surface-2);
+    border-radius: 999px;
+    padding: 1px 7px;
+    margin-left: 4px;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
+    padding: 18px 16px;
+    margin-bottom: 16px;
+  }
+  .card h2 {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 12px;
+  }
+
+  .platforms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .platforms button {
+    appearance: none;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 9px 14px;
+    border-radius: 999px;
+    border: 1.5px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .platforms button[aria-pressed="true"] {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: var(--accent-ink);
+  }
+  .platforms button:focus-visible,
+  nav.tabs button:focus-visible,
+  input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .fee-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .fee-row label {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  .fields {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 440px) {
+    .fields { grid-template-columns: 1fr; }
+  }
+  .field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    margin-bottom: 5px;
+  }
+  .field label .opt {
+    font-weight: 400;
+    font-size: 12px;
+  }
+  .inputbox {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .inputbox:focus-within {
+    border-color: var(--accent);
+  }
+  .inputbox input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink);
+    padding: 11px 4px 11px 12px;
+    text-align: right;
+  }
+  .inputbox input:focus { outline: none; }
+  .inputbox .unit {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-soft);
+    padding-right: 12px;
+  }
+  .field.hero .inputbox {
+    border-color: var(--accent);
+    border-width: 2px;
+  }
+
+  .results .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px dashed var(--line);
+    font-size: 15px;
+  }
+  .results .row:last-child { border-bottom: none; }
+  .results .row .k { color: var(--ink-soft); }
+  .results .row .v {
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .results .row .v .note {
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin-left: 6px;
+  }
+
+  .profit-hero {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: var(--surface-2);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .profit-hero .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+  .profit-hero .amount {
+    font-size: 30px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .pill {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 700;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-variant-numeric: tabular-nums;
+  }
+  .t-good { color: var(--good); }
+  .t-warn { color: var(--warn); }
+  .t-bad { color: var(--bad); }
+  .p-good { background: var(--good-bg); color: var(--good); }
+  .p-warn { background: var(--warn-bg); color: var(--warn); }
+  .p-bad { background: var(--bad-bg); color: var(--bad); }
+
+  .alert {
+    font-size: 14px;
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-top: 12px;
+    background: var(--warn-bg);
+    color: var(--warn);
+    font-weight: 600;
+  }
+  .alert.bad { background: var(--bad-bg); color: var(--bad); }
+  .alert[hidden] { display: none; }
+
+  .tablebox { overflow-x: auto; }
+  table.compare {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  table.compare th, table.compare td {
+    padding: 8px 6px;
+    text-align: right;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+  }
+  table.compare th:first-child, table.compare td:first-child {
+    text-align: left;
+    font-weight: 700;
+  }
+  table.compare thead th {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+  }
+  table.compare tbody tr:last-child td { border-bottom: none; }
+  table.compare .cur {
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    margin-left: 4px;
+  }
+
+  .hint {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 8px 2px 0;
+  }
+  footer.foot {
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-align: center;
+    margin-top: 24px;
+  }
+
+  .panel[hidden] { display: none; }
+  .inputbox input.txt {
+    text-align: left;
+    font-size: 16px;
+    font-weight: 600;
+    padding-right: 12px;
+  }
+  .kw-add {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .kw-add .inputbox { flex: 1; }
+  .btn {
+    appearance: none;
+    font: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: 10px;
+    border: 1.5px solid var(--accent);
+    background: var(--accent);
+    color: var(--accent-ink);
+    padding: 10px 16px;
+    cursor: pointer;
+  }
+  .btn.ghost {
+    background: var(--surface);
+    color: var(--accent);
+  }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  ul.names {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  ul.names li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  ul.names li:last-child { border-bottom: none; }
+  ul.names .nm {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.4;
+    word-break: keep-all;
+  }
+  ul.names .meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+  ul.names .len {
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+  }
+  ul.names .len.over { color: var(--warn); font-weight: 700; }
+  .copybtn {
+    appearance: none;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    border: 1.5px solid var(--line);
+    background: var(--surface-2);
+    color: var(--ink);
+    border-radius: 8px;
+    padding: 6px 12px;
+    cursor: pointer;
+  }
+  .copybtn.done { border-color: var(--good); color: var(--good); }
+  .empty {
+    font-size: 14px;
+    color: var(--ink-soft);
+    padding: 6px 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header class="app">
+    <h1><span class="brand">스타라팜</span> 마진계산기</h1>
+    <span class="sub">농수산물 셀러 도구</span>
+  </header>
+
+  <nav class="tabs" aria-label="도구 선택">
+    <button aria-selected="true" data-panel="panel-calc">마진 계산기</button>
+    <button aria-selected="false" data-panel="panel-name">상품명 생성기</button>
+    <button disabled aria-selected="false">리뷰 답글<span class="soon">준비중</span></button>
+  </nav>
+
+  <div class="panel" id="panel-calc">
+
+  <section class="card">
+    <h2>1. 판매 플랫폼</h2>
+    <div class="platforms" id="platforms"></div>
+    <div class="fee-row">
+      <label for="feeRate">수수료율</label>
+      <div class="inputbox" style="max-width:130px">
+        <input id="feeRate" type="number" inputmode="decimal" step="0.1" min="0" max="99" value="6.0">
+        <span class="unit">%</span>
+      </div>
+      <span class="hint" style="margin:0">직접 수정 가능</span>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>2. 원가 · 판매가 입력</h2>
+    <div class="fields">
+      <div class="field">
+        <label for="supply">공급가</label>
+        <div class="inputbox"><input id="supply" type="text" inputmode="numeric" placeholder="0"><span class="unit">원</span></div>
+      </div>
+      <div class="field">
+        <label for="shipping">택배비</label>
+        <div class="inputbox"><input id="shipping" type="text" inputmode="numeric" placeholder="0"><span class="unit">원</span></div>
+      </div>
+      <div class="field">
+        <label for="packaging">포장비</label>
+        <div class="inputbox"><input id="packaging" type="text" inputmode="numeric" placeholder="0"><span class="unit">원</span></div>
+      </div>
+      <div class="field">
+        <label for="ad">광고비 <span class="opt">(선택)</span></label>
+        <div class="inputbox"><input id="ad" type="text" inputmode="numeric" placeholder="0"><span class="unit">원</span></div>
+      </div>
+      <div class="field hero">
+        <label for="price">판매가</label>
+        <div class="inputbox"><input id="price" type="text" inputmode="numeric" placeholder="0"><span class="unit">원</span></div>
+      </div>
+      <div class="field">
+        <label for="targetMargin">목표 마진율</label>
+        <div class="inputbox"><input id="targetMargin" type="number" inputmode="decimal" step="1" min="0" max="99" value="20"><span class="unit">%</span></div>
+      </div>
+      <div class="field">
+        <label for="discount">희망 할인율</label>
+        <div class="inputbox"><input id="discount" type="number" inputmode="decimal" step="1" min="0" max="99" value="30"><span class="unit">%</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card results">
+    <h2>3. 계산 결과</h2>
+    <div class="profit-hero">
+      <div>
+        <div class="label">순이익 (1건 판매 시)</div>
+        <div class="amount" id="profit">0원</div>
+      </div>
+      <span class="pill p-good" id="marginPill">마진율 0.0%</span>
+    </div>
+    <div class="row"><span class="k">플랫폼 수수료</span><span class="v" id="fee">0원</span></div>
+    <div class="row"><span class="k">총원가 (수수료 포함)</span><span class="v" id="totalCost">0원</span></div>
+    <div class="row"><span class="k">목표 마진 기준 권장 판매가</span><span class="v" id="recPrice">–</span></div>
+    <div class="row"><span class="k">추천 정상가 <span style="font-weight:400">(할인가 노출용)</span></span><span class="v" id="listPrice">–</span></div>
+    <div class="alert bad" id="lossAlert" hidden>⚠ 역마진입니다. 판매가가 총원가보다 낮아요.</div>
+    <div class="alert" id="targetAlert" hidden></div>
+    <div class="alert bad" id="calcAlert" hidden>수수료율 + 목표 마진율이 100%를 넘어 권장 판매가를 계산할 수 없어요.</div>
+    <p class="hint">추천 정상가는 쿠팡·토스·G마켓에서 정상가/할인가로 보여줄 때 쓰는 값이에요. 정상가에 희망 할인율을 적용하면 지금 입력한 판매가가 됩니다. (100원 단위 올림)</p>
+  </section>
+
+  <section class="card">
+    <h2>4. 플랫폼별 비교 (같은 판매가 기준)</h2>
+    <div class="tablebox">
+      <table class="compare">
+        <thead>
+          <tr><th>플랫폼</th><th>수수료율</th><th>수수료</th><th>순이익</th><th>마진율</th></tr>
+        </thead>
+        <tbody id="compareBody"></tbody>
+      </table>
+    </div>
+    <p class="hint">각 플랫폼의 기본 수수료율로 계산한 값이에요. 위에서 수수료율을 직접 수정하면 선택된 플랫폼에만 적용됩니다.</p>
+  </section>
+
+  </div><!-- /panel-calc -->
+
+  <div class="panel" id="panel-name" hidden>
+    <section class="card">
+      <h2>1. 상품 정보</h2>
+      <div class="fields">
+        <div class="field">
+          <label for="gProduct">상품 <span class="opt">(필수)</span></label>
+          <div class="inputbox"><input id="gProduct" type="text" class="txt" placeholder="예: 사과"></div>
+        </div>
+        <div class="field">
+          <label for="gOrigin">산지</label>
+          <div class="inputbox"><input id="gOrigin" type="text" class="txt" placeholder="예: 청송"></div>
+        </div>
+        <div class="field">
+          <label for="gVariety">품종·상세</label>
+          <div class="inputbox"><input id="gVariety" type="text" class="txt" placeholder="예: 부사"></div>
+        </div>
+        <div class="field">
+          <label for="gWeight">중량·구성</label>
+          <div class="inputbox"><input id="gWeight" type="text" class="txt" placeholder="예: 5kg 한박스"></div>
+        </div>
+        <div class="field">
+          <label for="gBrand">브랜드 <span class="opt">(비우면 제외)</span></label>
+          <div class="inputbox"><input id="gBrand" type="text" class="txt" value="스타라팜"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. 강조 키워드 (여러 개 선택 가능)</h2>
+      <div class="platforms" id="kwChips"></div>
+      <div class="kw-add">
+        <div class="inputbox"><input id="gCustomKw" type="text" class="txt" placeholder="키워드 직접 추가 (예: 꿀사과)"></div>
+        <button type="button" class="btn ghost" id="gAddKw">추가</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>3. 추천 상품명</h2>
+      <ul class="names" id="nameList"></ul>
+      <button type="button" class="btn" id="gShuffle" style="margin-top:12px">다르게 조합하기</button>
+      <p class="hint">스마트스토어는 50자 이내가 검색 노출에 유리해요. 같은 단어 반복은 자동으로 정리됩니다. 마음에 드는 이름 옆의 [복사]를 눌러 그대로 붙여넣으세요.</p>
+    </section>
+  </div>
+
+  <footer class="foot">스타라팜 셀러 도구 · 수수료율은 플랫폼 정책에 따라 달라질 수 있으니 실제 정산 내역과 비교해 확인하세요.</footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var PLATFORMS = [
+    { id: "smartstore", name: "스마트스토어", fee: 6.0 },
+    { id: "coupang",    name: "쿠팡",         fee: 11.7 },
+    { id: "toss",       name: "토스",         fee: 11.8 },
+    { id: "gmarket",    name: "G마켓",        fee: 13.0 },
+    { id: "st11",       name: "11번가",       fee: 13.0 },
+    { id: "custom",     name: "직접입력",     fee: null }
+  ];
+
+  var els = {
+    platforms: document.getElementById("platforms"),
+    feeRate: document.getElementById("feeRate"),
+    supply: document.getElementById("supply"),
+    shipping: document.getElementById("shipping"),
+    packaging: document.getElementById("packaging"),
+    ad: document.getElementById("ad"),
+    price: document.getElementById("price"),
+    targetMargin: document.getElementById("targetMargin"),
+    discount: document.getElementById("discount"),
+    profit: document.getElementById("profit"),
+    marginPill: document.getElementById("marginPill"),
+    fee: document.getElementById("fee"),
+    totalCost: document.getElementById("totalCost"),
+    recPrice: document.getElementById("recPrice"),
+    listPrice: document.getElementById("listPrice"),
+    lossAlert: document.getElementById("lossAlert"),
+    targetAlert: document.getElementById("targetAlert"),
+    calcAlert: document.getElementById("calcAlert"),
+    compareBody: document.getElementById("compareBody")
+  };
+
+  var state = { platform: "smartstore" };
+
+  // ---- 유틸 ----
+  function won(n) {
+    return Math.round(n).toLocaleString("ko-KR") + "원";
+  }
+  function num(el) {
+    var v = String(el.value).replace(/[^\d.]/g, "");
+    var n = parseFloat(v);
+    return isFinite(n) ? n : 0;
+  }
+  function ceilTo(n, unit) {
+    return Math.ceil(n / unit) * unit;
+  }
+
+  // 원화 입력칸: 숫자만 받아 천 단위 콤마
+  function moneyInput(el) {
+    el.addEventListener("input", function () {
+      var digits = el.value.replace(/[^\d]/g, "").slice(0, 12);
+      el.value = digits ? Number(digits).toLocaleString("ko-KR") : "";
+      recalc();
+    });
+  }
+
+  // ---- 플랫폼 칩 ----
+  PLATFORMS.forEach(function (p) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.textContent = p.name;
+    b.dataset.id = p.id;
+    b.setAttribute("aria-pressed", p.id === state.platform ? "true" : "false");
+    b.addEventListener("click", function () {
+      state.platform = p.id;
+      if (p.fee != null) els.feeRate.value = p.fee;
+      else els.feeRate.focus();
+      renderChips();
+      recalc();
+    });
+    els.platforms.appendChild(b);
+  });
+
+  function renderChips() {
+    var kids = els.platforms.children;
+    for (var i = 0; i < kids.length; i++) {
+      kids[i].setAttribute("aria-pressed", kids[i].dataset.id === state.platform ? "true" : "false");
+    }
+  }
+
+  // 수수료율을 손으로 고치면 "직접입력" 취급
+  els.feeRate.addEventListener("input", function () {
+    var p = PLATFORMS.filter(function (x) { return x.id === state.platform; })[0];
+    if (p && p.fee != null && num(els.feeRate) !== p.fee) {
+      state.platform = "custom";
+      renderChips();
+    }
+    recalc();
+  });
+
+  // ---- 계산 ----
+  function calc(price, feeRate, base) {
+    var fee = price * feeRate;
+    var totalCost = base + fee;
+    var profit = price - totalCost;
+    var margin = price > 0 ? (profit / price) * 100 : 0;
+    return { fee: fee, totalCost: totalCost, profit: profit, margin: margin };
+  }
+
+  function recalc() {
+    var supply = num(els.supply);
+    var shipping = num(els.shipping);
+    var packaging = num(els.packaging);
+    var ad = num(els.ad);
+    var price = num(els.price);
+    var feeRate = num(els.feeRate) / 100;
+    var targetMargin = num(els.targetMargin) / 100;
+    var discount = num(els.discount) / 100;
+    var base = supply + shipping + packaging + ad;
+
+    var r = calc(price, feeRate, base);
+
+    els.fee.textContent = won(r.fee);
+    els.totalCost.textContent = won(r.totalCost);
+    els.profit.textContent = won(r.profit);
+    els.profit.className = "amount " + (r.profit < 0 ? "t-bad" : "t-good");
+
+    // 마진율 상태: 역마진=빨강, 목표 미달=노랑, 목표 달성=초록
+    var pillClass = "p-good";
+    if (r.profit < 0) pillClass = "p-bad";
+    else if (price > 0 && r.margin < targetMargin * 100) pillClass = "p-warn";
+    els.marginPill.className = "pill " + pillClass;
+    els.marginPill.textContent = "마진율 " + (price > 0 ? r.margin.toFixed(1) : "0.0") + "%";
+
+    // 권장 판매가 = 원가 ÷ (1 - 수수료율 - 목표마진율), 10원 올림
+    var denom = 1 - feeRate - targetMargin;
+    var recOk = denom > 0 && base > 0;
+    els.calcAlert.hidden = !(denom <= 0 && base > 0);
+    if (recOk) {
+      var rec = ceilTo(base / denom, 10);
+      els.recPrice.innerHTML = won(rec) + '<span class="note">마진 ' + (targetMargin * 100).toFixed(0) + "% 기준</span>";
+    } else {
+      els.recPrice.textContent = "–";
+    }
+
+    // 추천 정상가 = 판매가 ÷ (1 - 할인율), 100원 올림
+    if (price > 0 && discount > 0 && discount < 1) {
+      var list = ceilTo(price / (1 - discount), 100);
+      els.listPrice.innerHTML = won(list) + '<span class="note">' + (discount * 100).toFixed(0) + "% 할인 표시용</span>";
+    } else if (price > 0) {
+      els.listPrice.textContent = won(price);
+    } else {
+      els.listPrice.textContent = "–";
+    }
+
+    // 경고
+    els.lossAlert.hidden = !(price > 0 && r.profit < 0);
+    var underTarget = price > 0 && r.profit >= 0 && r.margin < targetMargin * 100;
+    els.targetAlert.hidden = !underTarget;
+    if (underTarget && recOk) {
+      els.targetAlert.textContent = "목표 마진율 " + (targetMargin * 100).toFixed(0) + "%에 못 미쳐요. 판매가를 " +
+        won(ceilTo(base / denom, 10)) + " 이상으로 올리면 목표를 맞출 수 있어요.";
+    } else if (underTarget) {
+      els.targetAlert.textContent = "목표 마진율 " + (targetMargin * 100).toFixed(0) + "%에 못 미쳐요.";
+    }
+
+    // 플랫폼별 비교표
+    var rows = "";
+    PLATFORMS.forEach(function (p) {
+      if (p.fee == null) return;
+      var isCur = p.id === state.platform;
+      var rate = isCur ? feeRate : p.fee / 100;
+      var c = calc(price, rate, base);
+      var mClass = c.profit < 0 ? "t-bad" : (c.margin < targetMargin * 100 ? "t-warn" : "t-good");
+      rows += "<tr><td>" + p.name + (isCur ? '<span class="cur">선택됨</span>' : "") + "</td>" +
+        "<td>" + (rate * 100).toFixed(1) + "%</td>" +
+        "<td>" + won(c.fee) + "</td>" +
+        '<td class="' + (c.profit < 0 ? "t-bad" : "") + '">' + won(c.profit) + "</td>" +
+        '<td class="' + mClass + '">' + (price > 0 ? c.margin.toFixed(1) : "0.0") + "%</td></tr>";
+    });
+    els.compareBody.innerHTML = rows;
+
+    saveState();
+  }
+
+  // ---- 입력값 자동 저장 (기기에만 저장됨) ----
+  var STORE_KEY = "starafarm-margin-v1";
+  function saveState() {
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        platform: state.platform,
+        feeRate: els.feeRate.value,
+        supply: els.supply.value,
+        shipping: els.shipping.value,
+        packaging: els.packaging.value,
+        ad: els.ad.value,
+        price: els.price.value,
+        targetMargin: els.targetMargin.value,
+        discount: els.discount.value
+      }));
+    } catch (e) { /* 저장 불가 환경이어도 계산은 정상 동작 */ }
+  }
+  function loadState() {
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (!raw) return;
+      var s = JSON.parse(raw);
+      if (s.platform) state.platform = s.platform;
+      ["feeRate", "supply", "shipping", "packaging", "ad", "price", "targetMargin", "discount"].forEach(function (k) {
+        if (s[k] != null && s[k] !== "") els[k].value = s[k];
+      });
+      renderChips();
+    } catch (e) { /* 무시 */ }
+  }
+
+  [els.supply, els.shipping, els.packaging, els.ad, els.price].forEach(moneyInput);
+  [els.targetMargin, els.discount].forEach(function (el) {
+    el.addEventListener("input", recalc);
+  });
+
+  loadState();
+  recalc();
+
+  // ================= 탭 전환 =================
+  var tabBtns = document.querySelectorAll("nav.tabs button[data-panel]");
+  Array.prototype.forEach.call(tabBtns, function (t) {
+    t.addEventListener("click", function () {
+      Array.prototype.forEach.call(tabBtns, function (x) {
+        x.setAttribute("aria-selected", x === t ? "true" : "false");
+        document.getElementById(x.dataset.panel).hidden = (x !== t);
+      });
+    });
+  });
+
+  // ================= 상품명 생성기 =================
+  var KEYWORDS = ["산지직송", "국내산", "당일수확", "햇", "고당도", "제철", "못난이", "가정용", "선물용", "무농약", "GAP인증"];
+  var g = {
+    product: document.getElementById("gProduct"),
+    origin: document.getElementById("gOrigin"),
+    variety: document.getElementById("gVariety"),
+    weight: document.getElementById("gWeight"),
+    brand: document.getElementById("gBrand"),
+    chips: document.getElementById("kwChips"),
+    customKw: document.getElementById("gCustomKw"),
+    addKw: document.getElementById("gAddKw"),
+    shuffle: document.getElementById("gShuffle"),
+    list: document.getElementById("nameList")
+  };
+  var kwOverride = null; // "다르게 조합하기"로 섞은 키워드 순서
+
+  function makeKwChip(text, pressed) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.textContent = text;
+    b.setAttribute("aria-pressed", pressed ? "true" : "false");
+    b.addEventListener("click", function () {
+      b.setAttribute("aria-pressed", b.getAttribute("aria-pressed") === "true" ? "false" : "true");
+      kwOverride = null;
+      genNames();
+    });
+    g.chips.appendChild(b);
+  }
+  KEYWORDS.forEach(function (kw) { makeKwChip(kw, kw === "산지직송"); });
+
+  function addCustomKw() {
+    var t = g.customKw.value.trim().replace(/\s+/g, " ");
+    if (!t) return;
+    makeKwChip(t, true);
+    g.customKw.value = "";
+    kwOverride = null;
+    genNames();
+  }
+  g.addKw.addEventListener("click", addCustomKw);
+  g.customKw.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") { e.preventDefault(); addCustomKw(); }
+  });
+
+  function selectedKws() {
+    if (kwOverride) return kwOverride;
+    var out = [];
+    var kids = g.chips.children;
+    for (var i = 0; i < kids.length; i++) {
+      if (kids[i].getAttribute("aria-pressed") === "true") out.push(kids[i].textContent);
+    }
+    return out;
+  }
+
+  function cleanPart(s) {
+    // 특수문자 제거(하이픈·괄호·단위 문자는 유지), 공백 정리
+    return String(s || "").replace(/[^\w가-힣ㄱ-ㅎa-zA-Z0-9\s().x×~-]/g, "").replace(/\s+/g, " ").trim();
+  }
+
+  function genNames() {
+    var p = cleanPart(g.product.value);
+    var o = cleanPart(g.origin.value);
+    var vr = cleanPart(g.variety.value);
+    var w = cleanPart(g.weight.value);
+    var b = cleanPart(g.brand.value);
+    var kws = selectedKws();
+
+    if (!p) {
+      g.list.innerHTML = '<li><span class="empty">상품 이름(예: 사과)을 입력하면 추천 상품명이 나와요.</span></li>';
+      return;
+    }
+
+    var names = [];
+    function add(parts) {
+      // 빈 조각 제거 + 이름 안에서 같은 단어 반복 제거
+      var seen = {}, out = [];
+      parts.join(" ").split(/\s+/).forEach(function (t) {
+        var key = t.toLowerCase();
+        if (t && !seen[key]) { seen[key] = 1; out.push(t); }
+      });
+      var n = out.join(" ");
+      if (n && names.indexOf(n) < 0) names.push(n);
+    }
+    function k(i) { return kws.length ? kws[i % kws.length] : ""; }
+
+    add([k(0), o, p, vr, w, k(1)]);
+    add([o, vr, p, w, k(0), k(2)]);
+    add([b, o, p, vr, w, k(1)]);
+    add([k(1), k(2), o, p, w]);
+    add([o, p, vr, w].concat(kws.slice(0, 4)));
+    add([b, k(0), o, vr, p, w, k(2)]);
+    add([o, vr, p, w]);
+
+    var html = "";
+    names.slice(0, 6).forEach(function (n) {
+      var over = n.length > 50;
+      html += '<li><span class="nm">' + n + '</span><span class="meta">' +
+        '<span class="len' + (over ? " over" : "") + '">' + n.length + "자" + (over ? " (50자 초과)" : "") + "</span>" +
+        '<button type="button" class="copybtn" data-name="' + n.replace(/"/g, "&quot;") + '">복사</button>' +
+        "</span></li>";
+    });
+    g.list.innerHTML = html;
+  }
+
+  g.list.addEventListener("click", function (e) {
+    var btn = e.target.closest ? e.target.closest(".copybtn") : null;
+    if (!btn) return;
+    var text = btn.dataset.name;
+    function done() {
+      btn.textContent = "복사됨";
+      btn.classList.add("done");
+      setTimeout(function () { btn.textContent = "복사"; btn.classList.remove("done"); }, 1400);
+    }
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text;
+      ta.style.position = "fixed";
+      ta.style.opacity = "0";
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand("copy"); } catch (err) { /* 무시 */ }
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, function () { fallback(); done(); });
+    } else { fallback(); done(); }
+  });
+
+  g.shuffle.addEventListener("click", function () {
+    var kws = selectedKws().slice();
+    for (var i = kws.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = kws[i]; kws[i] = kws[j]; kws[j] = tmp;
+    }
+    kwOverride = kws;
+    genNames();
+  });
+
+  [g.product, g.origin, g.variety, g.weight, g.brand].forEach(function (el) {
+    el.addEventListener("input", function () { kwOverride = null; genNames(); });
+  });
+
+  genNames();
+})();
+</script>
+</body>
+</html>
