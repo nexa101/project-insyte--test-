@@ -4,6 +4,14 @@
 <meta charset="utf-8">
 <title>스타라팜 마진계산기</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="농수산물 셀러를 위한 마진 계산기 · 상품명 생성기 · 리뷰 답글 도구. 스마트스토어, 쿠팡, 토스, G마켓, 11번가 수수료를 반영해 순이익과 권장 판매가를 바로 계산합니다.">
+<meta name="theme-color" content="#F7FAF6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#131A15" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A5%AC%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&display=swap">
 <style>
   :root {
     --ground: #F7FAF6;
@@ -20,7 +28,12 @@
     --good-bg: #E3F3E8;
     --warn-bg: #F8EED8;
     --bad-bg: #FAE4E4;
+    --board: #1E5C39;
+    --board-2: #164A2D;
+    --board-ink: #F1F8F2;
+    --board-soft: #A3CDB1;
     --shadow: 0 1px 3px rgba(28, 42, 33, 0.08);
+    --font-display: "Jua", "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -38,6 +51,10 @@
       --good-bg: #1C3326;
       --warn-bg: #362C14;
       --bad-bg: #3A1F1F;
+      --board: #205034;
+      --board-2: #183F28;
+      --board-ink: #EAF4EC;
+      --board-soft: #8FBC9E;
       --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
     }
   }
@@ -56,6 +73,10 @@
     --good-bg: #E3F3E8;
     --warn-bg: #F8EED8;
     --bad-bg: #FAE4E4;
+    --board: #1E5C39;
+    --board-2: #164A2D;
+    --board-ink: #F1F8F2;
+    --board-soft: #A3CDB1;
     --shadow: 0 1px 3px rgba(28, 42, 33, 0.08);
   }
   :root[data-theme="dark"] {
@@ -73,6 +94,10 @@
     --good-bg: #1C3326;
     --warn-bg: #362C14;
     --bad-bg: #3A1F1F;
+    --board: #205034;
+    --board-2: #183F28;
+    --board-ink: #EAF4EC;
+    --board-soft: #8FBC9E;
     --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
   }
 
@@ -80,6 +105,7 @@
   body {
     margin: 0;
     background: var(--ground);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, var(--ground)) 0%, var(--ground) 220px) fixed;
     color: var(--ink);
     font-family: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", "Noto Sans KR", sans-serif;
     font-size: 16px;
@@ -94,29 +120,47 @@
 
   header.app {
     display: flex;
-    align-items: baseline;
-    gap: 10px;
-    margin-bottom: 6px;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 4px;
+  }
+  .logo-mark {
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--board) 0%, var(--accent) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 25px;
+    box-shadow: var(--shadow);
   }
   header.app h1 {
-    font-size: 22px;
-    font-weight: 800;
+    font-family: var(--font-display);
+    font-size: 25px;
+    font-weight: 400;
     margin: 0;
-    letter-spacing: -0.01em;
+    letter-spacing: 0.01em;
+    line-height: 1.2;
   }
   header.app .brand {
     color: var(--accent);
   }
-  header.app .sub {
+  header.app .tagline {
     font-size: 13px;
     color: var(--ink-soft);
+    margin: 2px 0 0;
   }
 
   nav.tabs {
     display: flex;
-    gap: 6px;
-    margin: 14px 0 18px;
-    border-bottom: 1px solid var(--line);
+    gap: 4px;
+    margin: 16px 0 20px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px;
     overflow-x: auto;
   }
   nav.tabs button {
@@ -127,14 +171,17 @@
     font-size: 15px;
     font-weight: 700;
     color: var(--ink-soft);
-    padding: 8px 12px 10px;
-    border-bottom: 3px solid transparent;
+    padding: 9px 12px;
+    flex: 1;
+    border-radius: 999px;
     white-space: nowrap;
     cursor: pointer;
+    transition: background 0.15s ease, color 0.15s ease;
   }
   nav.tabs button[aria-selected="true"] {
+    background: var(--surface);
     color: var(--accent);
-    border-bottom-color: var(--accent);
+    box-shadow: var(--shadow);
   }
   nav.tabs button:disabled {
     cursor: default;
@@ -153,18 +200,34 @@
   .card {
     background: var(--surface);
     border: 1px solid var(--line);
-    border-radius: 14px;
+    border-radius: 16px;
     box-shadow: var(--shadow);
     padding: 18px 16px;
     margin-bottom: 16px;
   }
   .card h2 {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin: 0 0 14px;
+  }
+  .card h2 .step {
+    flex-shrink: 0;
+    width: 23px;
+    height: 23px;
+    border-radius: 8px;
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-family: var(--font-display);
     font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ink-soft);
-    margin: 0 0 12px;
+    font-weight: 400;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .platforms {
@@ -183,6 +246,12 @@
     background: var(--surface);
     color: var(--ink);
     cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, transform 0.08s ease;
+  }
+  .platforms button:active,
+  .btn:active,
+  .copybtn:active {
+    transform: scale(0.96);
   }
   .platforms button[aria-pressed="true"] {
     background: var(--accent);
@@ -287,27 +356,45 @@
   }
 
   .profit-hero {
+    position: relative;
+    overflow: hidden;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
-    background: var(--surface-2);
-    border-radius: 12px;
-    padding: 14px 16px;
+    background: radial-gradient(130% 170% at 0% 0%, var(--board) 0%, var(--board-2) 100%);
+    border-radius: 14px;
+    padding: 18px;
     margin-bottom: 12px;
+    color: var(--board-ink);
+  }
+  .profit-hero::after {
+    content: "🌿";
+    position: absolute;
+    right: -8px;
+    bottom: -18px;
+    font-size: 76px;
+    opacity: 0.13;
+    pointer-events: none;
   }
   .profit-hero .label {
     font-size: 14px;
     font-weight: 600;
-    color: var(--ink-soft);
+    color: var(--board-soft);
   }
   .profit-hero .amount {
-    font-size: 30px;
+    font-size: 34px;
     font-weight: 800;
     font-variant-numeric: tabular-nums;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
   }
+  .profit-hero .amount.t-good { color: var(--board-ink); }
+  .profit-hero .amount.t-bad { color: #FFA9A9; }
+  .profit-hero .pill { position: relative; z-index: 1; }
+  .profit-hero .pill.p-good { background: rgba(255, 255, 255, 0.16); color: #BCEECD; }
+  .profit-hero .pill.p-warn { background: rgba(255, 255, 255, 0.14); color: #F5D48B; }
+  .profit-hero .pill.p-bad { background: rgba(255, 255, 255, 0.14); color: #FFB1B1; }
   .pill {
     display: inline-block;
     font-size: 14px;
@@ -504,14 +591,20 @@
     color: var(--ink-soft);
     font-variant-numeric: tabular-nums;
   }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
 </style>
 </head>
 <body>
 
 <div class="wrap">
   <header class="app">
-    <h1><span class="brand">스타라팜</span> 마진계산기</h1>
-    <span class="sub">농수산물 셀러 도구</span>
+    <div class="logo-mark" aria-hidden="true">🥬</div>
+    <div>
+      <h1><span class="brand">스타라팜</span> 셀러 도구</h1>
+      <p class="tagline">우리 농산물 판매, 숫자로 든든하게</p>
+    </div>
   </header>
 
   <nav class="tabs" aria-label="도구 선택">
@@ -523,7 +616,7 @@
   <div class="panel" id="panel-calc">
 
   <section class="card">
-    <h2>1. 판매 플랫폼</h2>
+    <h2><span class="step">1</span>판매 플랫폼</h2>
     <div class="platforms" id="platforms"></div>
     <div class="fee-row">
       <label for="feeRate">수수료율</label>
@@ -536,7 +629,7 @@
   </section>
 
   <section class="card">
-    <h2>2. 원가 · 판매가 입력</h2>
+    <h2><span class="step">2</span>원가 · 판매가 입력</h2>
     <div class="fields">
       <div class="field">
         <label for="supply">공급가</label>
@@ -570,7 +663,7 @@
   </section>
 
   <section class="card results">
-    <h2>3. 계산 결과</h2>
+    <h2><span class="step">3</span>계산 결과</h2>
     <div class="profit-hero">
       <div>
         <div class="label">순이익 (1건 판매 시)</div>
@@ -589,7 +682,7 @@
   </section>
 
   <section class="card">
-    <h2>4. 플랫폼별 비교 (같은 판매가 기준)</h2>
+    <h2><span class="step">4</span>플랫폼별 비교 (같은 판매가 기준)</h2>
     <div class="tablebox">
       <table class="compare">
         <thead>
@@ -605,7 +698,7 @@
 
   <div class="panel" id="panel-name" hidden>
     <section class="card">
-      <h2>1. 상품 정보</h2>
+      <h2><span class="step">1</span>상품 정보</h2>
       <div class="fields">
         <div class="field">
           <label for="gProduct">상품 <span class="opt">(필수)</span></label>
@@ -631,7 +724,7 @@
     </section>
 
     <section class="card">
-      <h2>2. 강조 키워드 (여러 개 선택 가능)</h2>
+      <h2><span class="step">2</span>강조 키워드 (여러 개 선택 가능)</h2>
       <div class="platforms" id="kwChips"></div>
       <div class="kw-add">
         <div class="inputbox"><input id="gCustomKw" type="text" class="txt" placeholder="키워드 직접 추가 (예: 꿀사과)"></div>
@@ -640,7 +733,7 @@
     </section>
 
     <section class="card">
-      <h2>3. 추천 상품명</h2>
+      <h2><span class="step">3</span>추천 상품명</h2>
       <ul class="names" id="nameList"></ul>
       <button type="button" class="btn" id="gShuffle" style="margin-top:12px">다르게 조합하기</button>
       <p class="hint">스마트스토어는 50자 이내가 검색 노출에 유리해요. 같은 단어 반복은 자동으로 정리됩니다. 마음에 드는 이름 옆의 [복사]를 눌러 그대로 붙여넣으세요.</p>
@@ -649,7 +742,7 @@
 
   <div class="panel" id="panel-review" hidden>
     <section class="card">
-      <h2>1. 고객 리뷰</h2>
+      <h2><span class="step">1</span>고객 리뷰</h2>
       <div class="field">
         <label for="rvText">리뷰 붙여넣기 <span class="opt">(붙여넣으면 유형·주제가 자동 선택돼요)</span></label>
         <textarea id="rvText" class="txtarea" rows="3" placeholder="예: 사과가 정말 달고 맛있어요. 배송도 빨랐습니다!"></textarea>
@@ -661,7 +754,7 @@
     </section>
 
     <section class="card">
-      <h2>2. 리뷰 유형 · 언급 주제</h2>
+      <h2><span class="step">2</span>리뷰 유형 · 언급 주제</h2>
       <p class="group-label">리뷰 유형 (하나 선택)</p>
       <div class="platforms" id="rvSentiment"></div>
       <p class="group-label" style="margin-top:14px">리뷰에서 언급한 것 (여러 개 선택)</p>
@@ -669,7 +762,7 @@
     </section>
 
     <section class="card">
-      <h2>3. 추천 답글</h2>
+      <h2><span class="step">3</span>추천 답글</h2>
       <div id="replyList"></div>
       <button type="button" class="btn" id="rvRegen">다른 답글 보기</button>
       <p class="hint">누를 때마다 다른 조합이 나와요. 불만 리뷰 답글은 교환·보상을 확답하지 않고 "문의 주시면 확인 후 처리" 톤으로 작성됩니다.</p>
