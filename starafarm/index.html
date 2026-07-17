@@ -7,7 +7,18 @@
 <meta name="description" content="농수산물 셀러를 위한 마진 계산기 · 상품명 생성기 · 리뷰 답글 도구. 스마트스토어, 쿠팡, 토스, G마켓, 11번가 수수료를 반영해 순이익과 권장 판매가를 바로 계산합니다.">
 <meta name="theme-color" content="#F7FAF6" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#131A15" media="(prefers-color-scheme: dark)">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A5%AC%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="assets/favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16.png">
+<link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96.png">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta property="og:type" content="website">
+<meta property="og:title" content="스타라팜 셀러 도구">
+<meta property="og:description" content="마진 계산기 · 상품명 생성기 · 리뷰 답글 — 농수산물 셀러를 위한 무료 도구">
+<meta property="og:image" content="https://project-insyte--test.pages.dev/starafarm/assets/og-image.png">
+<meta property="og:url" content="https://project-insyte--test.pages.dev/starafarm/">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
@@ -128,13 +139,7 @@
     flex-shrink: 0;
     width: 46px;
     height: 46px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, var(--board) 0%, var(--accent) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 25px;
-    box-shadow: var(--shadow);
+    display: block;
   }
   header.app h1 {
     font-family: var(--font-display);
@@ -600,7 +605,7 @@
 
 <div class="wrap">
   <header class="app">
-    <div class="logo-mark" aria-hidden="true">🥬</div>
+    <img class="logo-mark" src="assets/icon-192.png" alt="" width="46" height="46">
     <div>
       <h1><span class="brand">스타라팜</span> 셀러 도구</h1>
       <p class="tagline">우리 농산물 판매, 숫자로 든든하게</p>

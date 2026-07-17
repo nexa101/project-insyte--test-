@@ -1,0 +1,13 @@
+{
+  "name": "스타라팜 셀러 도구",
+  "short_name": "스타라팜",
+  "description": "농수산물 셀러를 위한 마진 계산기, 상품명 생성기, 리뷰 답글 도구",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#F7FAF6",
+  "theme_color": "#2C7A4B",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}
